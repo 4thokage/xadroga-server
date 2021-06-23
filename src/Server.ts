@@ -14,10 +14,9 @@ import * as cookieParser from "cookie-parser";
 import * as cors from "cors";
 import * as methodOverride from "method-override";
 import {User} from "./models/User";
-require('dotenv').config();
+require("dotenv").config();
 
 
-// @ts-ignore
 import customRedisAdapter from "./middlewares/CustomRedisAdapter";
 
 const rootDir = __dirname;

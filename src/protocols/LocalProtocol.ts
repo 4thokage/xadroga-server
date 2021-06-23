@@ -31,8 +31,8 @@ export class LocalProtocol implements OnVerify {
     }
 
     user.comparePassword(password, function(err: any, _: any) {
-      if (err) throw new Unauthorized("Wrong credentials")
-    })
+      if (err) throw new Unauthorized("Wrong credentials");
+    });
 
     const token = this.createJwt(user);
 
@@ -41,7 +41,7 @@ export class LocalProtocol implements OnVerify {
     return user.token;
   }
 
-  createJwt(user: User) {
+  createJwt(user: User): string {
     const {issuer, audience, secretOrKey, maxAge = 3600} = this.jwtSettings;
     const now = Date.now();
 

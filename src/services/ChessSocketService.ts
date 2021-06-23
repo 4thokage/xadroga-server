@@ -1,6 +1,5 @@
 import {SocketMiddlewareLogger} from "../middlewares/SocketMiddlewareLogger";
-import {Args, Broadcast, Emit, Input, IO, Socket, SocketService, SocketSession, SocketUseBefore} from "@tsed/socketio";
-// @ts-ignore
+import {Args, Input, IO, Socket, SocketService, SocketSession, SocketUseBefore} from "@tsed/socketio";
 import * as SocketIO from "socket.io";
 import {$log} from "@tsed/logger";
 
@@ -15,14 +14,15 @@ export class ChessSocketService {
   constructor(@IO private io: SocketIO.Server) {
   }
 
-  $onConnection(@Socket socket: Socket, @SocketSession session: SocketSession) {
+  $onConnection(@Socket socket: Socket, @SocketSession session: SocketSession) :void  {
     $log.debug("New connection, ID =>", socket.id);
+    $log.debug("Session =>", session);
 
     this.clients.set(socket.id, socket);
   }
 
   @Input("client.chat.join")
-  joinChat(@Args(0) username: string, @Args(1) roomId: any) {
+  joinChat(@Args(0) username: string, @Args(1) roomId: string): void {
 
     const socket = this.clients.get(roomId);
     if (!socket) return;
@@ -30,14 +30,14 @@ export class ChessSocketService {
       userId: username,
       username: username,
       text: `${username} has joined the chat`
-    })
+    });
   }
 
   @Input("client.chat.message")
-  sendChatMessage(@Args(0) username: string, @Args(1) ans: any,  @Args(2) roomId: string) {
+  sendChatMessage(@Args(0) username: string, @Args(1) ans: string,  @Args(2) roomId: string): void {
     const socket = this.clients.get(roomId);
     if (!socket) return;
-    socket.emit('server.chat.message', {});
+    socket.emit("server.chat.message", {});
   }
 
 }

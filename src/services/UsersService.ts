@@ -61,7 +61,7 @@ export class UsersService {
     return this.User.findById(id).remove().exec();
   }
 
-  attachToken(user: User, token: string) {
+  attachToken(user: User, token: string): void {
     user.token = token;
   }
 }

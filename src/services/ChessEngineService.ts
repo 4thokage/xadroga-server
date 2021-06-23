@@ -1,4 +1,4 @@
-const kongAI = require('chess-ai-kong');
+const kongAI = require("chess-ai-kong");
 
 export class ChessEngineService {
 

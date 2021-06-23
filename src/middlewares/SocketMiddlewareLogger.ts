@@ -4,7 +4,7 @@ import {$log} from "@tsed/logger";
 @SocketMiddleware()
 export class SocketMiddlewareLogger {
 
-  async use(@Args() args: any[]) {
+  async use(@Args() args: any[]) : Promise<any[]> {
 
     $log.debug("Socket", args);
 

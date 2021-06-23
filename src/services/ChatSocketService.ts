@@ -10,7 +10,7 @@ import {
   SocketSession,
   SocketUseBefore
 } from "@tsed/socketio";
-// @ts-ignore
+
 import * as SocketIO from "socket.io";
 import {$log} from "@tsed/logger";
 import {ChatClient} from "../models/ChatClient";
@@ -35,7 +35,7 @@ export class ChatSocketService {
    */
   $onConnection(@Socket socket: Socket, @SocketSession session: SocketSession) {
     $log.debug("New client, ID =>", socket.id);
-    let chatClient = new ChatClient(socket.id);
+    const chatClient = new ChatClient(socket.id);
     session.set("client", chatClient);
 
     this.nsp.emit("server.chat.client.new", chatClient);
