@@ -1,0 +1,41 @@
+
+name: CI
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  coverage:
+  
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Run tests and collect coverage
+        run: |
+          npm ci
+          npm run test
+      - name: Upload coverage to codecov
+        uses: codecov/codecov-action@v1.0.13
+        with:
+          file: ./server/coverage/coverage-final.json
+          flags: unittest
+
+  test:
+    needs: [coverage]
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [10.x, 12.x, 14.x, 15.x]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: |
+          npm ci
+          npm run test
