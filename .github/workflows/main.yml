@@ -17,4 +17,4 @@ jobs:
         uses: codecov/codecov-action@v1.0.13
         with:
           file: ./coverage/coverage-final.json
-          token: 31fee8fc-3798-4d3a-9059-2059b377ce64
+          token: fb3eba15-e14c-4d1e-98aa-303bc1f2201e
