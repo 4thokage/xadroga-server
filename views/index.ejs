@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title>Xadroga Server - Control Panel</title>
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet" />
+
+</head>
+<body>
+<div class="container">
+    <div>
+        <ul>
+        <li><a href="http://95.179.249.69:15672/#/exchanges/%2F/exchange_logs"><span>Logs (rabbitMQ admin for now)</span></a></li>
+            <% docs.forEach((doc) => { %>
+                <li><a href="<%= doc.path %>"><span>API Docs <%= doc.specVersion %></span></a></li>
+            <% }) %>
+        </ul>
+
+    </div>
+</div>
+<!-- built files will be auto injected -->
+</body>
+</html>

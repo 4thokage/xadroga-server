@@ -2,6 +2,7 @@ import "@tsed/ajv";
 import {Configuration, Inject, PlatformAcceptMimesMiddleware, PlatformApplication} from "@tsed/common";
 import "@tsed/platform-express";
 import "@tsed/swagger";
+import "@tsed/logger-rabbitmq";
 
 import * as express from "express";
 import * as compress from "compression";
@@ -11,9 +12,31 @@ import * as methodOverride from "method-override";
 import {User} from "./domain/User";
 
 import * as dotenv from "dotenv";
+import customRedisAdapter from "./middlewares/CustomRedisAdapter";
+import {$log} from "@tsed/logger";
+
 dotenv.config();
 
-import customRedisAdapter from "./middlewares/CustomRedisAdapter";
+export const isProduction = process.env.NODE_ENV === 'production';
+
+$log.name = 'XADROGA_SERVER'
+// if (isProduction) {
+//   $log.appenders.set("stdout", {
+//     type: "seq",
+//     level: ["debug"],
+//     options: {
+//       hostname: process.env.RABBITMQ_HOST,
+//       port: 5672,
+//       username: process.env.RABBITMQ_USER,
+//       password: process.env.RABBITMQ_PASSWORD,
+//       routing_key: 'logstash',
+//       exchange: 'exchange_logs',
+//       mq_type: 'direct',
+//       durable: true
+//     }
+//   });
+// }
+
 
 const rootDir = __dirname;
 
@@ -23,7 +46,8 @@ const rootDir = __dirname;
   httpPort: process.env.PORT || 8000,
   httpsPort: false, // CHANGE
   mount: {
-    "/api": [`${rootDir}/controllers/**/*.ts`]
+    "/api": [`${rootDir}/controllers/**/*.ts`],
+    "/": [`${rootDir}/controllers/pages/**/*.ts`]
   },
   mongoose: [
     {
@@ -44,6 +68,13 @@ const rootDir = __dirname;
   ],
   socketIO: {
     adapter: customRedisAdapter()
+  },
+  views: {
+    root: `${rootDir}/../views`,
+    viewEngine: "ejs"
+  },
+  logger: {
+    disableRoutesSummary: isProduction,
   },
   exclude: ["**/*.spec.ts"],
   componentsScan: [`${rootDir}/protocols/*Protocol.ts`],
