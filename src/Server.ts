@@ -17,9 +17,9 @@ import {$log} from "@tsed/logger";
 
 dotenv.config();
 
-export const isProduction = process.env.NODE_ENV === 'production';
+export const isProduction = process.env.NODE_ENV === "production";
 
-$log.name = 'XADROGA_SERVER'
+$log.name = "XADROGA_SERVER";
 // if (isProduction) {
 //   $log.appenders.set("stdout", {
 //     type: "seq",
@@ -36,7 +36,6 @@ $log.name = 'XADROGA_SERVER'
 //     }
 //   });
 // }
-
 
 const rootDir = __dirname;
 
@@ -74,7 +73,7 @@ const rootDir = __dirname;
     viewEngine: "ejs"
   },
   logger: {
-    disableRoutesSummary: isProduction,
+    disableRoutesSummary: isProduction
   },
   exclude: ["**/*.spec.ts"],
   componentsScan: [`${rootDir}/protocols/*Protocol.ts`],
