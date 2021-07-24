@@ -19,5 +19,11 @@ npm install
 npm start:dev
 ```
 
+# Documentation:
+[main wiki](https://github.com/4thokage/xadroga/wiki)
+
+[API docs (swagger)](https://xadroga-server.herokuapp.com/docs/)
+
+
 
 
