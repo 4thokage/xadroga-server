@@ -1,13 +1,10 @@
 export class ChatClient {
-
   /**
    *
    */
   public name: string;
 
-
-  constructor(private _id: string) {
-  }
+  constructor(private _id: string) {}
 
   /**
    *
@@ -16,7 +13,6 @@ export class ChatClient {
   get id(): string {
     return this._id;
   }
-
 
   /**
    *

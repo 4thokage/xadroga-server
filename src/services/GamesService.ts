@@ -1,7 +1,6 @@
 import {Inject, Service} from "@tsed/common";
 import {MongooseModel} from "@tsed/mongoose";
-import {Game} from "../models/Game";
-
+import {Game} from "../domain/Game";
 
 @Service()
 export class GamesService {
@@ -16,5 +15,4 @@ export class GamesService {
   async findById(id: string): Promise<Game | null> {
     return this.Game.findById(id).exec();
   }
-
 }

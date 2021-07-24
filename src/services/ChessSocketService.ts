@@ -6,15 +6,12 @@ import {$log} from "@tsed/logger";
 @SocketService("/chess-game")
 @SocketUseBefore(SocketMiddlewareLogger)
 export class ChessSocketService {
-
   // a map to keep clients by any id you like, a userId or whatever.
   public clients: Map<string, Socket> = new Map();
 
+  constructor(@IO private io: SocketIO.Server) {}
 
-  constructor(@IO private io: SocketIO.Server) {
-  }
-
-  $onConnection(@Socket socket: Socket, @SocketSession session: SocketSession) :void  {
+  $onConnection(@Socket socket: Socket, @SocketSession session: SocketSession): void {
     $log.debug("New connection, ID =>", socket.id);
     $log.debug("Session =>", session);
 
@@ -23,7 +20,6 @@ export class ChessSocketService {
 
   @Input("client.chat.join")
   joinChat(@Args(0) username: string, @Args(1) roomId: string): void {
-
     const socket = this.clients.get(roomId);
     if (!socket) return;
     socket.broadcast.emit("server.chat.user.join", {
@@ -34,12 +30,11 @@ export class ChessSocketService {
   }
 
   @Input("client.chat.message")
-  sendChatMessage(@Args(0) username: string, @Args(1) ans: string,  @Args(2) roomId: string): void {
+  sendChatMessage(@Args(0) username: string, @Args(1) ans: string, @Args(2) roomId: string): void {
     const socket = this.clients.get(roomId);
     if (!socket) return;
     socket.emit("server.chat.message", {});
   }
-
 }
 // For validating pawn promotion
 // const validatePawnPromotion = (socket, chess, pendingMove) => {

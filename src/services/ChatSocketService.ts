@@ -1,31 +1,18 @@
 import {SocketMiddlewareLogger} from "../middlewares/SocketMiddlewareLogger";
-import {
-  Args,
-  Broadcast, Emit,
-  Input,
-  Namespace,
-  Nsp,
-  Socket,
-  SocketService,
-  SocketSession,
-  SocketUseBefore
-} from "@tsed/socketio";
+import {Args, Broadcast, Emit, Input, Namespace, Nsp, Socket, SocketService, SocketSession, SocketUseBefore} from "@tsed/socketio";
 
 import * as SocketIO from "socket.io";
 import {$log} from "@tsed/logger";
-import {ChatClient} from "../models/ChatClient";
+import {ChatClient} from "../domain/ChatClient";
 
 @SocketService("/socket-chat")
 @SocketUseBefore(SocketMiddlewareLogger)
 export class ChatSocketService {
-
   //chat clients
   public clients: Map<string, ChatClient> = new Map();
 
-
   @Nsp
   private nsp: Namespace;
-
 
   /**
    * triggered when a client connects to this namespace
@@ -58,21 +45,23 @@ export class ChatSocketService {
   @Input("client.call.user")
   @Broadcast("server.call.hello")
   public callUser(@Args(0) data: any, @SocketSession session: SocketSession) {
+    $log.debug(session);
     return data;
   }
 
   @Input("client.call.accept")
   @Emit("server.call.accepted")
   public acceptCall(@Args(0) signal: any, @SocketSession session: SocketSession) {
+    $log.debug(session);
     return signal;
   }
 
   @Input("client.chat.client.message")
   @Emit("server.chat.client.message")
   public sendMessage(@Args(0) message: string, @SocketSession session: SocketSession) {
+    $log.debug(session);
     return message;
   }
-
 
   /**
    * Returns the list of clients
@@ -80,9 +69,8 @@ export class ChatSocketService {
    */
   public getClients(): ChatClient[] {
     const clients: ChatClient[] = [];
-    this.clients.forEach(e => clients.push(e));
+    this.clients.forEach((e) => clients.push(e));
 
     return clients;
   }
-
 }

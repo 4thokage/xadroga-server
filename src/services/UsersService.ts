@@ -1,8 +1,7 @@
 import {Inject, Service} from "@tsed/common";
 import {MongooseModel} from "@tsed/mongoose";
 import {$log} from "@tsed/logger";
-import {User} from "../models/User";
-
+import {User} from "../domain/User";
 
 @Service()
 export class UsersService {

@@ -1,10 +1,5 @@
 import "@tsed/ajv";
-import {
-  Configuration,
-  Inject,
-  PlatformAcceptMimesMiddleware,
-  PlatformApplication
-} from "@tsed/common";
+import {Configuration, Inject, PlatformAcceptMimesMiddleware, PlatformApplication} from "@tsed/common";
 import "@tsed/platform-express";
 import "@tsed/swagger";
 
@@ -13,9 +8,10 @@ import * as compress from "compression";
 import * as cookieParser from "cookie-parser";
 import * as cors from "cors";
 import * as methodOverride from "method-override";
-import {User} from "./models/User";
-require("dotenv").config();
+import {User} from "./domain/User";
 
+import * as dotenv from "dotenv";
+dotenv.config();
 
 import customRedisAdapter from "./middlewares/CustomRedisAdapter";
 
@@ -24,7 +20,7 @@ const rootDir = __dirname;
 @Configuration({
   rootDir,
   acceptMimes: ["application/json"],
-  httpPort: process.env.PORT || 8083,
+  httpPort: process.env.PORT || 8000,
   httpsPort: false, // CHANGE
   mount: {
     "/api": [`${rootDir}/controllers/**/*.ts`]
@@ -36,7 +32,7 @@ const rootDir = __dirname;
       connectionOptions: {
         useNewUrlParser: true,
         useUnifiedTopology: true,
-        useCreateIndex: true,
+        useCreateIndex: true
       }
     }
   ],
