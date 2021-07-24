@@ -16,13 +16,8 @@ git clone https://github.com/4thokage/xadroga-server.git
 npm install
 
 # serve with hot reload
-npm start
+npm start:dev
 ```
 
-## Environment configurations:
-See '.env.sample' file
 
-
-## Deployment
-This app is automaticly deployed to an heroku dynamo after each push to the maain branch [CHECK -> https://xadroga-server.herokuapp.com/
 
