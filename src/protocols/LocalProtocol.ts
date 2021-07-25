@@ -30,7 +30,9 @@ export class LocalProtocol implements OnVerify {
       throw new Unauthorized("Wrong credentials");
     }
 
-    return {user: user, token: this.createJwt(user)};
+    const sanitizedUser = await this.usersService.attachToken(user, this.createJwt(user));
+    sanitizedUser.password = "*****";
+    return sanitizedUser;
   }
 
   createJwt(user: User) {

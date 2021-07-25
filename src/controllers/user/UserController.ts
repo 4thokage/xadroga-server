@@ -1,4 +1,4 @@
-import {BodyParams, Controller, Delete, Get, PathParams, Post} from "@tsed/common";
+import {BodyParams, Controller, Get, PathParams, Post} from "@tsed/common";
 import {NotFound} from "@tsed/exceptions";
 import {Description, Required, Returns, Summary} from "@tsed/schema";
 import {User} from "../../domain/User";
@@ -42,28 +42,5 @@ export class UserController {
     user: CreateUserRequest
   ) {
     return this.usersService.save(UserFactory.createUser(user));
-  }
-
-  /**
-   *
-   * @param id
-   * @returns {{id: string, name: string}}
-   */
-  @Delete("/:id")
-  @Summary("Remove a user.")
-  @Returns(204)
-  async remove(@PathParams("id") id: string): Promise<void> {
-    await this.usersService.remove(id);
-  }
-
-  /**
-   *
-   * @returns {Promise<User[]>}
-   */
-  @Get("/")
-  @Summary("Return all users")
-  @Returns(200)
-  async getAllUsers(): Promise<User[]> {
-    return this.usersService.query();
   }
 }

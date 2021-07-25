@@ -1,12 +1,8 @@
-import {Model, ObjectID, Unique, MongoosePlugin} from "@tsed/mongoose";
-import {Description, Hidden, Required, Email} from "@tsed/schema";
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import * as mongooseBcrypt from "mongoose-bcrypt";
+import {Model, ObjectID, Unique} from "@tsed/mongoose";
+import {Description, Email, Property, Required} from "@tsed/schema";
 import * as bcrypt from "bcrypt";
 
 @Model({schemaOptions: {timestamps: true}})
-@MongoosePlugin(mongooseBcrypt)
 export class User {
   @ObjectID("id")
   _id: string;
@@ -21,10 +17,10 @@ export class User {
   @Description("The user email")
   email: string;
 
-  @Hidden()
+  @Property()
   token: string;
 
-  @Hidden()
+  @Property()
   password: string;
 
   verifyPasswordSync(candidatePassword: string) {

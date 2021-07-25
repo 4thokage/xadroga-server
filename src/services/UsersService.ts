@@ -59,4 +59,9 @@ export class UsersService {
   async remove(id: string): Promise<User> {
     return this.User.findById(id).remove().exec();
   }
+
+  async attachToken(user: User, token: string): Promise<User> {
+    user.token = token;
+    return this.save(user);
+  }
 }
