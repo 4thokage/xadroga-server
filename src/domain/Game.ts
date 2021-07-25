@@ -1,26 +1,44 @@
-import {Indexed, Model, Ref} from "@tsed/mongoose";
-import {Description, Required, Ignore} from "@tsed/schema";
-import {User} from "./User";
+import {Model, ObjectID} from "@tsed/mongoose";
+import {Description, Property, Required} from "@tsed/schema";
 
 @Model({schemaOptions: {timestamps: true}})
 export class Game {
-  @Ignore() // exclude _id from mongoose in the generated schema
+  @ObjectID("id")
+  @Description("The game ID")
   _id: string;
 
-  @Indexed()
   @Required()
-  @Description("The game ID")
-  gameId: string;
+  @Description("The game type")
+  type: string;
 
-  @Description("The game sate (FEN)")
+  @Required()
+  fen: string;
+
+  @Property()
+  pgn: string;
+
+  @Property()
   state: string;
 
-  @Description("The game outcome")
-  outcome: string;
+  @Required()
+  createdBy: string;
 
-  @Ref(User)
-  createdBy: Ref<User>;
+  @Property()
+  joinedBy: string[];
 
-  @Ref(User)
-  joinedBy: Ref<User>;
+  @Property()
+  @Description("The game total time limit in milliseconds")
+  maxTimeMs: number;
+
+  @Property()
+  @Description("time compensation after each move in milliseconds")
+  timeCompMs: number;
+
+
+  @Property()
+  sockets: string[];
+
+
+
+
 }

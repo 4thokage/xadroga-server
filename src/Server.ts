@@ -1,25 +1,28 @@
 import "@tsed/ajv";
 import {Configuration, Inject, PlatformAcceptMimesMiddleware, PlatformApplication} from "@tsed/common";
 import "@tsed/platform-express";
+import "@tsed/socketio";
 import "@tsed/swagger";
+import {$log} from "@tsed/logger";
 import "@tsed/logger-rabbitmq";
-
 import * as express from "express";
 import * as compress from "compression";
 import * as cookieParser from "cookie-parser";
 import * as cors from "cors";
 import * as methodOverride from "method-override";
-import {User} from "./domain/User";
 
+import {User} from "./domain/User";
 import * as dotenv from "dotenv";
-import customRedisAdapter from "./middlewares/CustomRedisAdapter";
-import {$log} from "@tsed/logger";
+import customRedisMiddleware from "./middlewares/CustomRedisMiddleware";
+import createPeerServerListeners from "./services/socket/GroupCallHandler";
+import {PeerServer} from "peer";
 
 dotenv.config();
 
 export const isProduction = process.env.NODE_ENV === "production";
 
 $log.name = "XADROGA_SERVER";
+$log.level = "debug";
 // if (isProduction) {
 //   $log.appenders.set("stdout", {
 //     type: "seq",
@@ -45,8 +48,8 @@ const rootDir = __dirname;
   httpPort: process.env.PORT || 8000,
   httpsPort: false, // CHANGE
   mount: {
-    "/api": [`${rootDir}/controllers/**/*.ts`],
-    "/": [`${rootDir}/controllers/pages/**/*.ts`]
+    "/": [`${rootDir}/controllers/pages/**/*.ts`],
+    "/api": [`${rootDir}/controllers/**/*.ts`]
   },
   mongoose: [
     {
@@ -66,7 +69,8 @@ const rootDir = __dirname;
     }
   ],
   socketIO: {
-    adapter: customRedisAdapter()
+    adapter: customRedisMiddleware(),
+    cors: {origin: '*'}
   },
   views: {
     root: `${rootDir}/../views`,
@@ -86,6 +90,8 @@ export class Server {
   app: PlatformApplication;
 
   $beforeRoutesInit(): void | Promise<any> {
+    let peerServer = PeerServer();
+    createPeerServerListeners(peerServer);
     this.app
       .use(cors())
       .use(PlatformAcceptMimesMiddleware)
@@ -97,6 +103,7 @@ export class Server {
         express.urlencoded({
           extended: true
         })
-      );
+      )
+      .use("/peerjs", peerServer)
   }
 }

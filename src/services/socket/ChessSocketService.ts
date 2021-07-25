@@ -1,4 +1,4 @@
-import {SocketMiddlewareLogger} from "../middlewares/SocketMiddlewareLogger";
+import {SocketMiddlewareLogger} from "../../middlewares/SocketMiddlewareLogger";
 import {Args, Input, IO, Socket, SocketService, SocketSession, SocketUseBefore} from "@tsed/socketio";
 import * as SocketIO from "socket.io";
 import {$log} from "@tsed/logger";
