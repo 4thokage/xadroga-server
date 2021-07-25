@@ -18,7 +18,7 @@ export class UsersService {
 
     const model = new this.User(user);
     $log.debug({message: "Save User", user});
-    await model.save();
+    await model.updateOne(user, {upsert: true});
 
     $log.debug({message: "User saved", model});
 
@@ -58,9 +58,5 @@ export class UsersService {
    */
   async remove(id: string): Promise<User> {
     return this.User.findById(id).remove().exec();
-  }
-
-  attachToken(user: User, token: string): void {
-    user.token = token;
   }
 }
