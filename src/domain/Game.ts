@@ -34,11 +34,6 @@ export class Game {
   @Description("time compensation after each move in milliseconds")
   timeCompMs: number;
 
-
   @Property()
   sockets: string[];
-
-
-
-
 }

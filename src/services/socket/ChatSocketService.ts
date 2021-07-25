@@ -1,70 +1,53 @@
 import {SocketMiddlewareLogger} from "../../middlewares/SocketMiddlewareLogger";
-import {
-  Args,
-  Broadcast,
-  Emit,
-  Input,
-  Namespace,
-  Nsp,
-  Socket,
-  SocketService,
-  SocketSession,
-  SocketUseBefore
-} from "@tsed/socketio";
+import {Args, Broadcast, Emit, Input, Socket, SocketService, SocketUseBefore} from "@tsed/socketio";
 import {$log} from "@tsed/logger";
 
 @SocketService("/chat")
 @SocketUseBefore(SocketMiddlewareLogger)
 export class ChatSocketService {
-
   /**
    * users in chat
    * @type {Map<string, any>}
    */
   public users: Map<string, any> = new Map();
 
-  @Nsp
-  private nsp: Namespace;
-
   /**
    * triggered when a client connects to this namespace
    *
    * @param socket
-   * @param session
    */
-  $onConnection(@Socket socket: Socket, @SocketSession session: SocketSession) {
+  $onConnection(@Socket socket: Socket) {
     $log.debug("New connection, ID =>", socket.id);
-    socket.join('Lobby')
+    socket.join("Lobby");
   }
 
   @Input("client.chat.mounted")
   @Emit("server.chat.mounted")
-  mount(@Args(0) channel: string, @Socket socket: Socket, @Namespace nsp: Namespace) {
+  mount(@Args(0) channel: string, @Socket socket: Socket) {
     return socket.id;
   }
 
   @Input("client.join.channel")
-  joinChannel(@Args(0) channel: string, @Socket socket: Socket, @Namespace nsp: Namespace) {
+  joinChannel(@Args(0) channel: string, @Socket socket: Socket) {
     socket.join(channel);
   }
 
   @Input("client.leave.channel")
-  leaveChannel(@Args(0) channel: string, @Socket socket: Socket, @Namespace nsp: Namespace) {
+  leaveChannel(@Args(0) channel: string, @Socket socket: Socket) {
     socket.leave(channel);
   }
 
   @Input("client.new.channel")
   @Broadcast("server.new.channel")
-  newChannel(@Args(0) channel: string, @Socket socket: Socket, @Namespace nsp: Namespace) {
+  newChannel(@Args(0) channel: string, @Socket socket: Socket) {
+    $log.debug("New connection, ID =>", socket.id);
     return channel;
   }
 
   @Input("client.new.message")
   @Broadcast("server.new.message")
-  newMessage(@Args(0) msg: string, @Socket socket: Socket, @Namespace nsp: Namespace) {
+  newMessage(@Args(0) msg: string, @Socket socket: Socket) {
+    $log.debug("New connection, ID =>", socket.id);
     return msg;
   }
-
-
-
 }

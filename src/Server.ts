@@ -70,7 +70,7 @@ const rootDir = __dirname;
   ],
   socketIO: {
     adapter: customRedisMiddleware(),
-    cors: {origin: '*'}
+    cors: {origin: "*"}
   },
   views: {
     root: `${rootDir}/../views`,
@@ -90,7 +90,7 @@ export class Server {
   app: PlatformApplication;
 
   $beforeRoutesInit(): void | Promise<any> {
-    let peerServer = PeerServer();
+    const peerServer = PeerServer();
     createPeerServerListeners(peerServer);
     this.app
       .use(cors())
@@ -104,6 +104,6 @@ export class Server {
           extended: true
         })
       )
-      .use("/peerjs", peerServer)
+      .use("/peerjs", peerServer);
   }
 }
