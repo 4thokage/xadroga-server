@@ -91,7 +91,7 @@ export class Server {
 
   $beforeRoutesInit(): void | Promise<any> {
     const peerServer = PeerServer();
-    peerServer.use(cors())
+    peerServer.use(cors());
     createPeerServerListeners(peerServer);
     this.app
       .use(cors())
