@@ -1,4 +1,4 @@
-FROM node:12.13.0-alpine
+FROM node:12.22.1-alpine
 
 RUN apk update && apk add build-base git python
 
