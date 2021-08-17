@@ -19,7 +19,7 @@
     "@socket.io/redis-adapter": "^7.0.0",
     "@tsed/ajv": "^6.60.2",
     "@tsed/common": "^6.60.2",
-    "@tsed/core": "^6.60.2",
+    "@tsed/core": "^6.61.1",
     "@tsed/di": "^6.60.2",
     "@tsed/exceptions": "^6.60.2",
     "@tsed/logger-rabbitmq": "^5.17.0",
