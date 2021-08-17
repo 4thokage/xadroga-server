@@ -21,7 +21,7 @@
     "@tsed/common": "^6.60.2",
     "@tsed/core": "^6.60.2",
     "@tsed/di": "^6.60.2",
-    "@tsed/exceptions": "^6.60.2",
+    "@tsed/exceptions": "^6.61.1",
     "@tsed/logger-rabbitmq": "^5.17.0",
     "@tsed/mongoose": "^6.60.2",
     "@tsed/passport": "^6.60.2",
