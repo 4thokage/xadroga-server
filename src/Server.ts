@@ -56,9 +56,7 @@ const rootDir = __dirname;
       id: "default", // Recommended: define default connection. All models without dbName will be assigned to this connection
       url: process.env.DATABASE_URL || "mongodb://localhost:27017",
       connectionOptions: {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-        useCreateIndex: true
+        autoIndex: true,
       }
     }
   ],

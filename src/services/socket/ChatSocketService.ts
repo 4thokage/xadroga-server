@@ -1,10 +1,13 @@
 import {SocketMiddlewareLogger} from "../../middlewares/SocketMiddlewareLogger";
-import {Args, Broadcast, Emit, Input, Socket, SocketService, SocketUseBefore} from "@tsed/socketio";
+import {Args, Broadcast, Emit, Input, Namespace, Nsp, Socket, SocketService, SocketUseBefore} from "@tsed/socketio";
 import {$log} from "@tsed/logger";
 
 @SocketService("/chat")
 @SocketUseBefore(SocketMiddlewareLogger)
 export class ChatSocketService {
+
+  @Nsp
+  private nsp: Namespace;
   /**
    * users in chat
    * @type {Map<string, any>}
@@ -19,6 +22,14 @@ export class ChatSocketService {
   $onConnection(@Socket socket: Socket) {
     $log.debug("New connection, ID =>", socket.id);
     socket.join("Lobby");
+  }
+
+  $onDisconnect(@Socket socket: Socket) {
+    if (this.users.has(socket.id)) {
+      const player = this.users.get(socket.id);
+
+      $log.debug("Player disconnected =>", player.name, player.id);
+    }
   }
 
   @Input("client.chat.mounted")

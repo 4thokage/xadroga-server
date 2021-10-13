@@ -51,14 +51,6 @@ export class UsersService {
     return this.User.findOne(options).exec();
   }
 
-  /**
-   *
-   * @param id
-   * @returns {Promise<User>}
-   */
-  async remove(id: string): Promise<User> {
-    return this.User.findById(id).remove().exec();
-  }
 
   async attachToken(user: User, token: string): Promise<User> {
     user.token = token;
